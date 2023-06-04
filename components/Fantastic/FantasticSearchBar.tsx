@@ -29,7 +29,7 @@ export default function FantasticSearchBar({ setFantastics, data }: props) {
         setSearchBarText(text);
       }}
       mode="view"
-      style={{ width: "80%" }}
+      style={{ width: "100%" }}
     />
   );
 }

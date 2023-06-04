@@ -15,14 +15,18 @@ export default function BookSearchBar({ setBooks: setBooks, data }: props) {
       value={searchBarText}
       onChangeText={(text) => {
         if (!data) return;
-        setBooks(data.filter((f: Book) => f.name?.search(text) !== -1));
+        setBooks(
+          data.filter(
+            (f: Book) => f.name?.toUpperCase().search(text.toUpperCase()) !== -1
+          )
+        );
         if (text === "") {
           setBooks(data);
         }
         setSearchBarText(text);
       }}
       mode="view"
-      style={{ width: width * 0.2 + 200, marginTop: 20 }}
+      style={{ width: width * 0.2 + 200, marginTop: 20, marginBottom: 20 }}
     />
   );
 }

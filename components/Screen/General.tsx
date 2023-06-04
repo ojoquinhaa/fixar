@@ -1,13 +1,13 @@
 import { ScaledSize, View, useWindowDimensions } from "react-native";
 import { getFantasticStyleSheet } from "../../styles";
 import { MD3Theme, useTheme } from "react-native-paper";
-import FuncView from "../Fantastic/FuncView";
 import { useCallback, useState } from "react";
 import FantasticAPI, { Fantastic } from "../../API/Fantastic";
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import DrawerList from "../Drawer/DrawerList";
 import DataTableComponent from "../Fantastic/DataTableComponent";
 import BookAPI, { Book } from "../../API/Book";
+import FantasticSearchBar from "../Fantastic/FantasticSearchBar";
 
 export default function General() {
   const window: ScaledSize = useWindowDimensions();
@@ -29,21 +29,23 @@ export default function General() {
       fantasticAPI.getByOwner().then((data) => {
         setData(data);
         setFantastics(data);
-        bookAPI.getAll().then(setBooks);
+        bookAPI.getAll().then((books) => {
+          setBooks(books);
+        });
       });
     }, [])
   );
 
   return (
     <View style={styles.fantastic}>
-      <FuncView
+      <FantasticSearchBar setFantastics={setFantastics} data={data} />
+      <DataTableComponent
+        fantastics={fantastics}
+        book={books}
+        setData={setData}
         setFantastics={setFantastics}
-        theme={theme}
-        window={window}
-        add={false}
-        data={data}
+        token={token}
       />
-      <DataTableComponent fantastics={fantastics} height={700} book={books} />
     </View>
   );
 }

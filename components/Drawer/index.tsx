@@ -5,6 +5,7 @@ import Books from "../Screen/Books";
 import General from "../Screen/General";
 import { Dispatch, SetStateAction } from "react";
 import Accont from "../Screen/Accont";
+import Fantastics from "../Screen/Fantastics";
 
 const DrawerElement = createDrawerNavigator<DrawerList>();
 
@@ -35,14 +36,14 @@ export default function Drawer({ theme, token, setLogged, setToken }: props) {
           component={General}
           initialParams={{ token }}
         />
-        <DrawerElement.Screen
-          name="Accont"
-          component={General}
-          initialParams={{ token, setLogged, setToken }}
-        />
+        <DrawerElement.Screen name="Accont" initialParams={{ token }}>
+          {(props) => (
+            <Accont {...props} setLogged={setLogged} setToken={setToken} />
+          )}
+        </DrawerElement.Screen>
         <DrawerElement.Screen
           name="Fantastic"
-          component={Accont}
+          component={Fantastics}
           initialParams={{ token }}
           options={{
             drawerItemStyle: { display: "none" },

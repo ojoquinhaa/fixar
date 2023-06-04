@@ -3,22 +3,14 @@ import { Button, MD3Theme, TextInput, useTheme } from "react-native-paper";
 import { getBooksStyleSheet } from "../../styles";
 import { Dispatch, SetStateAction } from "react";
 import BookAPI, { Book } from "../../API/Book";
-import { Color, SwatchesPicker } from "react-color";
-import {
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import DrawerList from "../Drawer/DrawerList";
 
 type props = {
   name: string;
   setName: Dispatch<SetStateAction<string>>;
-  bookColor: Color;
-  setBookColor: Dispatch<SetStateAction<Color>>;
-  textColor: Color;
-  setTextColor: Dispatch<SetStateAction<Color>>;
+  bookColor: string;
+  setBookColor: Dispatch<SetStateAction<string>>;
+  textColor: string;
+  setTextColor: Dispatch<SetStateAction<string>>;
   token: string;
   setBooks: Dispatch<SetStateAction<Book[]>>;
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -29,9 +21,6 @@ export default function NewBookView(props: props): JSX.Element | null {
   const theme: MD3Theme = useTheme();
   const styles = getBooksStyleSheet(window, theme);
 
-  const navigation = useNavigation<NavigationProp<DrawerList>>();
-  const route = useRoute<RouteProp<DrawerList>>();
-
   async function createNewBookHandler() {
     const api = new BookAPI(props.token);
     const book: Book = {
@@ -40,7 +29,7 @@ export default function NewBookView(props: props): JSX.Element | null {
       color: props.textColor.toString(),
     };
     const data = await api.create(book);
-    if (data.msg) {
+    if (data.id) {
       api.getAll().then((data) => {
         props.setBooks(data);
       });
@@ -51,8 +40,11 @@ export default function NewBookView(props: props): JSX.Element | null {
       props.setVisible(false);
       return;
     }
-
-    alert(data.error.msg);
+    if (data.response.data["name"]) {
+      alert("O nome do livro está inválido.");
+      return;
+    }
+    alert("Falha ao criar o seu livro.");
   }
 
   return (
@@ -95,11 +87,6 @@ export default function NewBookView(props: props): JSX.Element | null {
           >
             Cor do livro:{" "}
           </Text>
-          <SwatchesPicker
-            color={props.bookColor}
-            onChangeComplete={(color) => props.setBookColor(color.hex)}
-            height={80}
-          />
         </View>
         <View style={styles.colorSelect}>
           <Text
@@ -112,11 +99,6 @@ export default function NewBookView(props: props): JSX.Element | null {
           >
             Cor do texto:{" "}
           </Text>
-          <SwatchesPicker
-            color={props.textColor}
-            onChangeComplete={(color) => props.setTextColor(color.hex)}
-            height={80}
-          />
         </View>
       </View>
       <Button

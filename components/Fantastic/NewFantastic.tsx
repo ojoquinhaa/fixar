@@ -5,13 +5,6 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { PaperSelect } from "react-native-paper-select";
 import FantasticAPI, { Fantastic } from "../../API/Fantastic";
 import { Book } from "../../API/Book";
-import {
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import DrawerList from "../Drawer/DrawerList";
 
 type props = {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -50,9 +43,6 @@ export default function NewFantastic({
 
   const fantasticColors = ["#FFBF00", "#DC143C", "#89CFF0", "#D27D2D"];
 
-  const navigation = useNavigation<NavigationProp<DrawerList>>();
-  const route = useRoute<RouteProp<DrawerList>>();
-
   async function createFantasticHandler() {
     if (book.id !== undefined) {
       const api = new FantasticAPI(token, book.id);
@@ -65,7 +55,7 @@ export default function NewFantastic({
         tag: tag,
       };
       const data = await api.create(newFantastic);
-      if (data.msg) {
+      if (data.id) {
         api.getByBook().then((data) => {
           setFantastics(data);
         });
@@ -78,7 +68,23 @@ export default function NewFantastic({
         setVisible(false);
         return;
       }
-      alert(data.response.data.error.msg);
+      if (data.response.data.fantastic) {
+        alert("O valor do fantástico está inválido.");
+        return;
+      }
+      if (data.response.data.pag) {
+        alert("O valor da página está inválido.");
+        return;
+      }
+      if (data.response.data.util) {
+        alert("O valor da utilidade está inválido.");
+        return;
+      }
+      if (data.response.data.tag) {
+        alert("O valor da tag está inválido");
+        return;
+      }
+      alert("Falha ao adicionar seu fantástico. Tente novamente mais tarde.");
     }
   }
 

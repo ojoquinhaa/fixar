@@ -5,11 +5,20 @@ import { Book } from "../../API/Book";
 import { Fantastic } from "../../API/Fantastic";
 import DataTableRow from "./DataTableRow";
 import { ScrollView } from "react-native-gesture-handler";
-type props = { fantastics: Fantastic[]; height?: number; book?: Book[] };
+import { Dispatch, SetStateAction } from "react";
+type props = {
+  fantastics: Fantastic[];
+  book?: Book[];
+  token: string;
+  setFantastics: Dispatch<SetStateAction<Fantastic[]>>;
+  setData: Dispatch<SetStateAction<Fantastic[]>>;
+};
 export default function DataTableComponent({
   fantastics,
-  height,
   book,
+  token,
+  setData,
+  setFantastics,
 }: props) {
   const window: ScaledSize = useWindowDimensions();
   const theme: MD3Theme = useTheme();
@@ -17,7 +26,7 @@ export default function DataTableComponent({
 
   return (
     <ScrollView
-      style={{ maxHeight: height ?? 400, ...styles.data }}
+      style={{ maxHeight: "100%", ...styles.data }}
       horizontal={true}
       contentContainerStyle={{ width: window.width * 2 }}
     >
@@ -90,7 +99,15 @@ export default function DataTableComponent({
           </DataTable.Header>
 
           {fantastics?.map((fantastic: Fantastic, index: number) => (
-            <DataTableRow fantastic={fantastic} key={index} book={book} />
+            <DataTableRow
+              fantastic={fantastic}
+              key={index}
+              book={book}
+              fantastics={fantastics}
+              setData={setFantastics}
+              setFantastics={setData}
+              token={token}
+            />
           ))}
         </DataTable>
       </ScrollView>

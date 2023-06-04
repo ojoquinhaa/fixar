@@ -15,7 +15,7 @@ export default class UserAPI {
     username: string = "",
     password: string = "",
     token: string = "",
-    url: string = "http://metodofixar.com.br"
+    url: string = "https://metodofixar.com.br"
   ) {
     this.url = url;
     this.username = username;
@@ -27,7 +27,17 @@ export default class UserAPI {
     try {
       const request = await axios({
         method: "POST",
-        url: `${this.url}/api/user/login?username=${this.username}&password=${this.password}`,
+        url: `${this.url}/api/token/`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          "Cache-Control": "no-cache",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          username: this.username,
+          password: this.password,
+        }),
       });
       return request.data;
     } catch (e) {
@@ -39,9 +49,11 @@ export default class UserAPI {
     try {
       const request = await axios({
         method: "GET",
-        url: `${this.url}/api/user`,
+        url: `${this.url}/api/users`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
+          Accept: "application/json",
+          "Cache-Control": "no-cache",
         },
       });
       return request.data;

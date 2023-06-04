@@ -18,7 +18,7 @@ export default class FantasticAPI {
   constructor(
     token: string,
     bookID?: number,
-    url: string = "http://metodofixar.com.br"
+    url: string = "https://metodofixar.com.br"
   ) {
     this.url = url;
     this.token = token;
@@ -28,10 +28,11 @@ export default class FantasticAPI {
     try {
       const response = await axios({
         method: "GET",
-        url: `${this.url}/api/fantastics`,
+        url: `${this.url}/api/fantastics/`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
+          "Cache-Control": "no-cache",
         },
       });
       return response.data;
@@ -43,10 +44,11 @@ export default class FantasticAPI {
     try {
       const response = await axios({
         method: "GET",
-        url: `${this.url}/api/fantastics?book=${this.book}`,
+        url: `${this.url}/api/fantastics/?book=${this.book}`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
+          "Cache-Control": "no-cache",
         },
       });
       return response.data;
@@ -59,17 +61,35 @@ export default class FantasticAPI {
     try {
       const request = await axios({
         method: "POST",
-        url: `${this.url}/api/fantastics`,
+        url: `${this.url}/api/fantastics/`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
-          "Content-Type": "application/json; charset=utf8",
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
         },
         data: JSON.stringify(fantastic),
       });
       return request.data;
     } catch (e) {
       return e;
+    }
+  }
+
+  async delete(id: number) {
+    try {
+      const request = await axios({
+        method: "DELETE",
+        url: `${this.url}/api/fantastics/${id}/`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          Accept: "application/json",
+          "Cache-Control": "no-cache",
+        },
+      });
+      return request.status;
+    } catch (e) {
+      return e as Error;
     }
   }
 }

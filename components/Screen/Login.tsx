@@ -3,7 +3,7 @@ import { Button, TextInput, useTheme } from "react-native-paper";
 import { getLoginStyleSheet } from "../../styles";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import UserAPI from "../../API/User";
-import SecuryStory from "expo-secure-store";
+import * as SecureStory from "expo-secure-store";
 import { Platform } from "react-native";
 
 type props = {
@@ -22,7 +22,7 @@ export default function Login(props: props): JSX.Element {
 
   useEffect(() => {
     if (Platform.OS !== "web") {
-      SecuryStory.getItemAsync("token").then((token) => {
+      SecureStory.getItemAsync("token").then((token) => {
         if (token) {
           props.setToken(token);
           props.setLogged(true);
@@ -32,21 +32,16 @@ export default function Login(props: props): JSX.Element {
   });
 
   async function loginHandler(): Promise<void> {
-    if (user === "" || password === "") {
-      alert("Credenciáis inválidas.");
-      return;
-    }
-
     const api = new UserAPI(user, password);
     const data = await api.login();
 
-    if (data.token) {
+    if (data.access) {
       alert("Logado com successo!");
       if (Platform.OS !== "web") {
-        await SecuryStory.setItemAsync("token", data.token);
+        await SecureStory.setItemAsync("token", data.access);
       }
       props.setLogged(true);
-      props.setToken(data.token);
+      props.setToken(data.access);
       return;
     }
 
@@ -75,14 +70,23 @@ export default function Login(props: props): JSX.Element {
         <Pressable style={styles.input}>
           <Button
             mode="contained"
-            style={styles.button}
             dark={true}
             onPress={loginHandler}
+            style={{ backgroundColor: "#c83473" }}
           >
             Enviar
           </Button>
         </Pressable>
       </View>
+      <Image
+        source={require("../../assets/logomarca.png")}
+        style={{
+          width: 50,
+          height: 50,
+          position: "relative",
+          top: 100,
+        }}
+      />
     </View>
   );
 }

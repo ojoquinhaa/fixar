@@ -39,10 +39,10 @@ export default function BookPressable(props: props) {
   function deleteBook() {
     const api = new BookAPI(token);
     api.delete(props.book.id!).then((res) => {
-      if (res.msg) {
+      if (res === 204) {
         props.setBooks(props.books.filter((b) => b.id !== props.book.id));
         props.setData(props.books.filter((b) => b.id !== props.book.id));
-        alert(res.msg);
+        alert("Livro deletado com sucesso!");
         return;
       }
       alert("Falha ao deletar seu livro.");

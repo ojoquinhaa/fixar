@@ -20,14 +20,10 @@ export function getLoginStyleSheet(window: ScaledSize, theme: MD3Theme) {
     form: {
       width: width * 0.25 + 250,
       height: "auto",
-      backgroundColor: theme.colors.primary,
       padding: 30,
     },
     input: {
       marginTop: 20,
-    },
-    button: {
-      backgroundColor: theme.colors.tertiaryContainer,
     },
   });
 }
@@ -99,28 +95,19 @@ export function getFantasticStyleSheet(window: ScaledSize, theme: MD3Theme) {
       height: "100%",
     },
     book: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
       textAlign: "center",
+      height: 200,
       width: "100%",
-      height: "100%",
-      maxHeight: 200,
+      marginBottom: 20,
     },
     funcDiv: {
-      width: width * 0.3 + 200,
+      width: width * 0.2 + 200,
       maxHeight: 200,
-      height: "100%",
-      flex: 1,
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: 30,
-      marginTop: 30,
+      marginBottom: 20,
     },
     newButton: {
       backgroundColor: colors.tertiary,
-      width: "50%",
+      width: "100%",
       marginBottom: 20,
     },
     newDiv: {
@@ -128,7 +115,6 @@ export function getFantasticStyleSheet(window: ScaledSize, theme: MD3Theme) {
       height: "100%",
       maxHeight: 440,
       color: "#ffffff",
-      marginTop: -30,
       padding: 20,
       backgroundColor: theme.colors.backdrop,
     },

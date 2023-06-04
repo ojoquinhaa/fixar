@@ -11,8 +11,10 @@ type DrawerList = {
   Accont: {
     token: string;
     book: Book;
-    setToken: Dispatch<SetStateAction<string>>;
-    setLogged: Dispatch<SetStateAction<boolean>>;
+  };
+  NewBook: {
+    token: string;
+    book: Book;
   };
 };
 export default DrawerList;

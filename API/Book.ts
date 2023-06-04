@@ -10,7 +10,7 @@ export type Book = {
 export default class BookAPI {
   private token: string;
   private url: string;
-  constructor(token: string, url: string = "http://metodofixar.com.br") {
+  constructor(token: string, url: string = "https://metodofixar.com.br") {
     this.url = url;
     this.token = token;
   }
@@ -19,10 +19,12 @@ export default class BookAPI {
     try {
       const request = await axios({
         method: "GET",
-        url: `${this.url}/api/books`,
+        url: `${this.url}/api/books/`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
         },
       });
       return request.data;
@@ -32,14 +34,16 @@ export default class BookAPI {
   }
 
   async create(book: Book) {
+    console.log(book);
     try {
       const request = await axios({
         method: "POST",
-        url: `${this.url}/api/books`,
+        url: `${this.url}/api/books/`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
-          "Content-Type": "application/json; charset=utf8",
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
         },
         data: JSON.stringify(book),
       });
@@ -53,13 +57,14 @@ export default class BookAPI {
     try {
       const request = await axios({
         method: "DELETE",
-        url: `${this.url}/api/books?book=${id}`,
+        url: `${this.url}/api/books/${id}/`,
         headers: {
-          Authorization: `Berear ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: "application/json",
+          "Cache-Control": "no-cache",
         },
       });
-      return request.data;
+      return request.status;
     } catch (e) {
       return e as Error;
     }
