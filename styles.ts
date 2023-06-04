@@ -71,12 +71,6 @@ export function getBooksStyleSheet(window: ScaledSize, theme: MD3Theme) {
     input: {
       width: "100%",
     },
-    colorSelect: {
-      flex: 1,
-      flexDirection: "row",
-      height: "auto",
-      alignItems: "center",
-    },
     button: {
       backgroundColor: theme.colors.tertiaryContainer,
     },
@@ -96,7 +90,7 @@ export function getFantasticStyleSheet(window: ScaledSize, theme: MD3Theme) {
     },
     book: {
       textAlign: "center",
-      height: 200,
+      height: 100,
       width: "100%",
       marginBottom: 20,
     },

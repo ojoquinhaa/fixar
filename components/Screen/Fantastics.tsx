@@ -36,7 +36,7 @@ export default function Fantastics() {
   return (
     <View style={styles.fantastic}>
       <View style={{ backgroundColor: book.background, ...styles.book }}>
-        <Text style={{ fontSize: 25, color: book.color, marginTop: 80 }}>
+        <Text style={{ fontSize: 25, color: book.color, marginTop: 40 }}>
           {book.name}
         </Text>
       </View>

@@ -61,4 +61,25 @@ export default class UserAPI {
       return e;
     }
   }
+
+  async changePassword(password: string) {
+    try {
+      const request = await axios({
+        method: "PUT",
+        url: `${this.url}/api/users`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          "Cache-Control": "no-cache",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          password,
+        }),
+      });
+      return request.data;
+    } catch (e) {
+      return e;
+    }
+  }
 }
